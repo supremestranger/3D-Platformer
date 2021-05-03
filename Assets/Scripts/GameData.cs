@@ -9,9 +9,8 @@ namespace Platformer
 {
     public class GameData
     {
-        // Cached entities. No need to create filters for them
+        // Cached entity. No need to create filters for it
         public EcsEntity playerEntity { get; set; }
-
         public ConfigurationSO configuration;
         public Text coinCounter;
         public GameObject playerWonPanel;
