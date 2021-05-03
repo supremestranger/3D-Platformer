@@ -19,7 +19,7 @@ public class JumpBuffSystem : IEcsRunSystem
             if (jumpBuffComponent.timer <= 0)
             {
                 playerComponent.playerJumpForce /= 2f;
-                jumpBuff.GetEntity(i).Del<SpeedBuffComponent>();
+                jumpBuff.GetEntity(i).Del<JumpBuffComponent>();
             }
         }
     }
