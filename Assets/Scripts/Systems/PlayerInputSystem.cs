@@ -10,6 +10,7 @@ namespace Platformer
     public class PlayerInputSystem : IEcsRunSystem
     {
         private GameData gameData;
+
         public void Run()
         {
             if (!gameData.playerEntity.IsAlive())
