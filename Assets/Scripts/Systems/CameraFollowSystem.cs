@@ -7,6 +7,7 @@ namespace Platformer
 {
     public class CameraFollowSystem : IEcsInitSystem, IEcsRunSystem
     {
+        // auto-injected fields.
         private EcsWorld ecsWorld;
         private GameData gameData;
         private EcsEntity cameraEntity;

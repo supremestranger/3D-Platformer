@@ -7,6 +7,7 @@ namespace Platformer
 {
     public class PlayerMoveSystem : IEcsRunSystem
     {
+        // auto-injected fields.
         private GameData gameData;
 
         public void Run()

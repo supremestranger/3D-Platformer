@@ -7,6 +7,7 @@ namespace Platformer
 {
     public class PlayerInitSystem : IEcsInitSystem
     {
+        // auto-injected fields.
         private EcsWorld ecsWorld;
         private GameData gameData;
 

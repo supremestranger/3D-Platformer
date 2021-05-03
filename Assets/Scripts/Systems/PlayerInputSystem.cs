@@ -9,6 +9,7 @@ namespace Platformer
 {
     public class PlayerInputSystem : IEcsRunSystem
     {
+        // auto-injected fields.
         private GameData gameData;
 
         public void Run()

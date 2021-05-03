@@ -7,6 +7,7 @@ namespace Platformer
 {
     public class DangerousInitSystem : IEcsInitSystem
     {
+        // auto-injected fields.
         private EcsWorld ecsWorld;
 
         public void Init()

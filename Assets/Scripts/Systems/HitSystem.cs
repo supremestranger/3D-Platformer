@@ -8,8 +8,9 @@ namespace Platformer
 {
     public class HitSystem : IEcsRunSystem
     {
-        private EcsFilter<HitComponent> hits;
+        // auto-injected fields.
         private GameData gameData;
+        private EcsFilter<HitComponent> hits;
 
         public void Run()
         {
