@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class CameraFollowSystem : IEcsRunSystem
 {
-    private Startup startup;
+    private GameData gameData;
 
     public void Run()
     {
-        if(!startup.playerEntity.IsAlive() || !startup.cameraEntity.IsAlive())
+        if(!gameData.playerEntity.IsAlive() || !gameData.cameraEntity.IsAlive())
         {
             return;
         }
-        ref var cameraComponent = ref startup.cameraEntity.Get<CameraComponent>();
-        ref var playerComponent = ref startup.playerEntity.Get<PlayerComponent>();
+        ref var cameraComponent = ref gameData.cameraEntity.Get<CameraComponent>();
+        ref var playerComponent = ref gameData.playerEntity.Get<PlayerComponent>();
 
         Vector3 currentPosition = cameraComponent.cameraTransform.position;
         Vector3 targetPoint = playerComponent.playerTransform.position + cameraComponent.offset;

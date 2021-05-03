@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerInitSystem : IEcsInitSystem
 {
     private EcsWorld ecsWorld;
-    private Startup startup;
+    private GameData gameData;
 
     public void Init()
     {
@@ -17,13 +17,13 @@ public class PlayerInitSystem : IEcsInitSystem
         var playerGO = GameObject.FindGameObjectWithTag("Player");
 
         playerGO.GetComponentInChildren<GroundCheck>().playerEntity = playerEntity;
-        playerGO.GetComponentInChildren<CollisionChecker>().ecsWorld = ecsWorld;
-        playerComponent.playerSpeed = startup.Configuration.playerSpeed;
+        playerGO.GetComponentInChildren<CollisionCheckerView>().ecsWorld = ecsWorld;
+        playerComponent.playerSpeed = gameData.configuration.playerSpeed;
         playerComponent.playerTransform = playerGO.transform;
-        playerComponent.playerJumpForce = startup.Configuration.playerJumpForce;
+        playerComponent.playerJumpForce = gameData.configuration.playerJumpForce;
         playerComponent.playerCollider = playerGO.GetComponent<CapsuleCollider>();
         playerComponent.playerRB = playerGO.GetComponent<Rigidbody>();
 
-        startup.playerEntity = playerEntity;
+        gameData.playerEntity = playerEntity;
     }
 }

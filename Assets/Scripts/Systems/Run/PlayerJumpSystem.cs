@@ -5,20 +5,21 @@ using UnityEngine;
 
 public class PlayerJumpSystem : IEcsRunSystem
 {
-    private Startup startup;
+    private GameData gameData;
+
     public void Run()
     {
-        if (!startup.playerEntity.IsAlive())
+        if (!gameData.playerEntity.IsAlive())
         {
             return;
         }
-        ref var playerComponent = ref startup.playerEntity.Get<PlayerComponent>();
-        ref var playerInputComponent = ref startup.playerEntity.Get<PlayerInputComponent>();
+        ref var playerComponent = ref gameData.playerEntity.Get<PlayerComponent>();
+        ref var playerInputComponent = ref gameData.playerEntity.Get<PlayerInputComponent>();
 
         if (playerInputComponent.jumpInput)
         {
             playerInputComponent.jumpInput = false;
-            if (startup.playerEntity.Has<GroundedComponent>())
+            if (gameData.playerEntity.Has<GroundedComponent>())
             {
                 playerComponent.playerRB.AddForce(Vector3.up * playerComponent.playerJumpForce, ForceMode.VelocityChange);
             }

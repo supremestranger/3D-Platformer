@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class PlayerMoveSystem : IEcsRunSystem
 {
-    private Startup startup;
+    private GameData gameData;
 
     public void Run()
     {
-        if (!startup.playerEntity.IsAlive())
+        if (!gameData.playerEntity.IsAlive())
         {
             return;
         }
-        ref var playerComponent = ref startup.playerEntity.Get<PlayerComponent>();
-        ref var playerInputComponent = ref startup.playerEntity.Get<PlayerInputComponent>();
+        ref var playerComponent = ref gameData.playerEntity.Get<PlayerComponent>();
+        ref var playerInputComponent = ref gameData.playerEntity.Get<PlayerInputComponent>();
 
         playerComponent.playerRB.AddForce(playerInputComponent.moveInput * playerComponent.playerSpeed, ForceMode.Acceleration);
     }

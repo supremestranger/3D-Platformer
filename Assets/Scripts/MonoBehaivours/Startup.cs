@@ -11,41 +11,44 @@ public class Startup : MonoBehaviour
     private EcsSystems initSystems;
     private EcsSystems updateSystems;
     private EcsSystems fixedUpdateSystems;
+    public GameData gameData;
+    [SerializeField] private ConfigurationSO configuration;
+    [SerializeField] private Text coinCounter;
+    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject playerWonPanel;
     
-    // Cached entities. No need to create filters for them
-    public EcsEntity playerEntity { get; set; }
-    public EcsEntity cameraEntity { get; set; }
-
-    public ConfigurationSO Configuration;
-    public Text coinCounter;
-    public GameObject playerWonPanel;
-    public GameObject gameOverPanel;
-
     private void Start()
     {
         ecsWorld = new EcsWorld();
+        gameData = new GameData();
 
-#if UNITY_EDITOR
-        Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create(ecsWorld);
-#endif  
+        gameData.configuration = configuration;
+        gameData.coinCounter = coinCounter;
+        gameData.gameOverPanel = gameOverPanel;
+        gameData.playerWonPanel = playerWonPanel;
 
         initSystems = new EcsSystems(ecsWorld)
             .Add(new PlayerInitSystem())
             .Add(new CameraInitSystem())
             .Add(new DangerousInitSystem())
-            .Inject(this);
+            .Inject(gameData);
         updateSystems = new EcsSystems(ecsWorld)
             .Add(new PlayerInputSystem())
             .Add(new DangerousRunSystem())
             .Add(new HitSystem())
-            .Add(new BuffTimerSystem())
+            .Add(new SpeedBuffSystem())
+            .Add(new JumpBuffSystem())
             .OneFrame<HitComponent>()
-            .Inject(this);
+            .Inject(gameData);
         fixedUpdateSystems = new EcsSystems(ecsWorld)
             .Add(new PlayerMoveSystem())
             .Add(new CameraFollowSystem())
             .Add(new PlayerJumpSystem())
-            .Inject(this);
+            .Inject(gameData);
+
+#if UNITY_EDITOR
+        Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create(ecsWorld);
+#endif  
 
         initSystems.ProcessInjects();
         updateSystems.ProcessInjects();
@@ -70,5 +73,13 @@ public class Startup : MonoBehaviour
     private void FixedUpdate()
     {
         fixedUpdateSystems.Run();
+    }
+
+    private void OnDestroy()
+    {
+        initSystems.Destroy();
+        updateSystems.Destroy();
+        fixedUpdateSystems.Destroy();
+        ecsWorld.Destroy();
     }
 }

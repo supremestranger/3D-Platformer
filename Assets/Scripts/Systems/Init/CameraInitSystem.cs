@@ -6,7 +6,7 @@ using UnityEngine;
 public class CameraInitSystem : IEcsInitSystem
 {
     private EcsWorld ecsWorld;
-    private Startup startup;
+    private GameData gameData;
 
     public void Init()
     {
@@ -15,10 +15,10 @@ public class CameraInitSystem : IEcsInitSystem
         ref var cameraComponent = ref cameraEntity.Get<CameraComponent>();
 
         cameraComponent.cameraTransform = Camera.main.transform;
-        cameraComponent.cameraSmoothness = startup.Configuration.cameraFollowSmoothness;
+        cameraComponent.cameraSmoothness = gameData.configuration.cameraFollowSmoothness;
         cameraComponent.curVelocity = Vector3.zero;
         cameraComponent.offset = new Vector3(0f, 1f, -9f);
 
-        startup.cameraEntity = cameraEntity;
+        gameData.cameraEntity = cameraEntity;
     }
 }

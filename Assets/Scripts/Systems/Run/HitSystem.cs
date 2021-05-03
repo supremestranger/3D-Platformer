@@ -7,61 +7,61 @@ using UnityEngine;
 public class HitSystem : IEcsRunSystem
 {
     private EcsFilter<HitComponent> hits;
-    private Startup startup;
+    private GameData gameData;
 
     public void Run()
     {
-        foreach(var i in hits)
+        foreach (var i in hits)
         {
-            if (!startup.playerEntity.IsAlive())
+            if (!gameData.playerEntity.IsAlive())
             {
                 return;
             }
             ref var hitComponent = ref hits.Get1(i);
-            ref var playerComponent = ref startup.playerEntity.Get<PlayerComponent>();
+            ref var playerComponent = ref gameData.playerEntity.Get<PlayerComponent>();
 
             if (hitComponent.other.CompareTag("Coin"))
             {
                 hitComponent.other.gameObject.SetActive(false);
                 playerComponent.coins += 1;
-                startup.coinCounter.text = playerComponent.coins.ToString();
+                gameData.coinCounter.text = playerComponent.coins.ToString();
             }
 
             if (hitComponent.other.CompareTag("BadCoin"))
             {
                 hitComponent.other.gameObject.SetActive(false);
                 playerComponent.coins -= 1;
-                startup.coinCounter.text = playerComponent.coins.ToString();
+                gameData.coinCounter.text = playerComponent.coins.ToString();
             }
 
             if (hitComponent.other.CompareTag("Dangerous"))
             {
-                startup.playerEntity.Get<PlayerComponent>().playerTransform.gameObject.SetActive(false);
-                startup.playerEntity.Destroy();
-                startup.gameOverPanel.SetActive(true);
+                gameData.playerEntity.Get<PlayerComponent>().playerTransform.gameObject.SetActive(false);
+                gameData.playerEntity.Destroy();
+                gameData.gameOverPanel.SetActive(true);
             }
 
             if (hitComponent.other.CompareTag("WinPoint"))
             {
-                startup.playerEntity.Get<PlayerComponent>().playerTransform.gameObject.SetActive(false);
-                startup.playerEntity.Destroy();
-                startup.playerWonPanel.SetActive(true);
+                gameData.playerEntity.Get<PlayerComponent>().playerTransform.gameObject.SetActive(false);
+                gameData.playerEntity.Destroy();
+                gameData.playerWonPanel.SetActive(true);
             }
 
             if (hitComponent.other.CompareTag("JumpBuff"))
             {
                 hitComponent.other.gameObject.SetActive(false);
-                startup.playerEntity.Get<PlayerComponent>().playerJumpForce *= 2f;
-                ref var jumpBuffComponent = ref startup.playerEntity.Get<JumpBuffComponent>();
-                jumpBuffComponent.timer = startup.Configuration.jumpBuffDuration;
+                gameData.playerEntity.Get<PlayerComponent>().playerJumpForce *= 2f;
+                ref var jumpBuffComponent = ref gameData.playerEntity.Get<JumpBuffComponent>();
+                jumpBuffComponent.timer = gameData.configuration.jumpBuffDuration;
             }
 
             if (hitComponent.other.CompareTag("SpeedBuff"))
             {
                 hitComponent.other.gameObject.SetActive(false);
-                startup.playerEntity.Get<PlayerComponent>().playerSpeed *= 2f;
-                ref var speedBuffComponent = ref startup.playerEntity.Get<SpeedBuffComponent>();
-                speedBuffComponent.timer = startup.Configuration.speedBuffDuration;
+                gameData.playerEntity.Get<PlayerComponent>().playerSpeed *= 2f;
+                ref var speedBuffComponent = ref gameData.playerEntity.Get<SpeedBuffComponent>();
+                speedBuffComponent.timer = gameData.configuration.speedBuffDuration;
             }
         }
     }

@@ -121,7 +121,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 895c104eb967e77468079d1091745f54, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!1001 &6335918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -497,10 +497,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a439199b18f9f489d09f2a229d3c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Configuration: {fileID: 11400000, guid: 888a2405c3c461543813237cc698d15e, type: 2}
+  configuration: {fileID: 11400000, guid: 888a2405c3c461543813237cc698d15e, type: 2}
   coinCounter: {fileID: 1696141548}
-  playerWonPanel: {fileID: 1447646326}
   gameOverPanel: {fileID: 1054665527}
+  playerWonPanel: {fileID: 1447646326}
 --- !u!4 &162779146 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4468746378467424679, guid: 1b07cc48a606db44c966e84ac81dea07,

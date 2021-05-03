@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class PlayerInputSystem : IEcsRunSystem
 {
-    private Startup startup;
+    private GameData gameData;
     public void Run()
     {
-        if (!startup.playerEntity.IsAlive())
+        if (!gameData.playerEntity.IsAlive())
         {
             return;
         }
-        ref var playerInputComponent = ref startup.playerEntity.Get<PlayerInputComponent>();
+        ref var playerInputComponent = ref gameData.playerEntity.Get<PlayerInputComponent>();
         
         playerInputComponent.moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
 
