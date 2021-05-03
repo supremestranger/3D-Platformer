@@ -31,7 +31,6 @@ namespace Platformer
 
             initSystems = new EcsSystems(ecsWorld)
                 .Add(new PlayerInitSystem())
-                .Add(new CameraInitSystem())
                 .Add(new DangerousInitSystem())
                 .Inject(gameData);
             updateSystems = new EcsSystems(ecsWorld)

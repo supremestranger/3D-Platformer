@@ -11,7 +11,6 @@ namespace Platformer
     {
         // Cached entities. No need to create filters for them
         public EcsEntity playerEntity { get; set; }
-        public EcsEntity cameraEntity { get; set; }
 
         public ConfigurationSO configuration;
         public Text coinCounter;
