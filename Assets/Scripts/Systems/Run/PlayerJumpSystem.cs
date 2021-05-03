@@ -3,25 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerJumpSystem : IEcsRunSystem
+
+namespace Platformer
 {
-    private GameData gameData;
-
-    public void Run()
+    public class PlayerJumpSystem : IEcsRunSystem
     {
-        if (!gameData.playerEntity.IsAlive())
-        {
-            return;
-        }
-        ref var playerComponent = ref gameData.playerEntity.Get<PlayerComponent>();
-        ref var playerInputComponent = ref gameData.playerEntity.Get<PlayerInputComponent>();
+        private GameData gameData;
 
-        if (playerInputComponent.jumpInput)
+        public void Run()
         {
-            playerInputComponent.jumpInput = false;
-            if (gameData.playerEntity.Has<GroundedComponent>())
+            if (!gameData.playerEntity.IsAlive())
             {
-                playerComponent.playerRB.AddForce(Vector3.up * playerComponent.playerJumpForce, ForceMode.VelocityChange);
+                return;
+            }
+            ref var playerComponent = ref gameData.playerEntity.Get<PlayerComponent>();
+            ref var playerInputComponent = ref gameData.playerEntity.Get<PlayerInputComponent>();
+
+            if (playerInputComponent.jumpInput)
+            {
+                playerInputComponent.jumpInput = false;
+                if (gameData.playerEntity.Has<GroundedComponent>())
+                {
+                    playerComponent.playerRB.AddForce(Vector3.up * playerComponent.playerJumpForce, ForceMode.VelocityChange);
+                }
             }
         }
     }

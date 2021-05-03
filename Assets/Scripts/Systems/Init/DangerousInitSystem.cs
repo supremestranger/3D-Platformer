@@ -3,21 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DangerousInitSystem : IEcsInitSystem
+namespace Platformer
 {
-    private EcsWorld ecsWorld;
-
-    public void Init()
+    public class DangerousInitSystem : IEcsInitSystem
     {
-        foreach(var i in GameObject.FindGameObjectsWithTag("Dangerous"))
+        private EcsWorld ecsWorld;
+
+        public void Init()
         {
-            var dangerousEntity = ecsWorld.NewEntity();
+            foreach (var i in GameObject.FindGameObjectsWithTag("Dangerous"))
+            {
+                var dangerousEntity = ecsWorld.NewEntity();
 
-            ref var dangerousComponent = ref dangerousEntity.Get<DangerousComponent>();
+                ref var dangerousComponent = ref dangerousEntity.Get<DangerousComponent>();
 
-            dangerousComponent.obstacleTransform = i.transform;
-            dangerousComponent.pointA = i.transform.Find("A").position;
-            dangerousComponent.pointB = i.transform.Find("B").position;
+                dangerousComponent.obstacleTransform = i.transform;
+                dangerousComponent.pointA = i.transform.Find("A").position;
+                dangerousComponent.pointB = i.transform.Find("B").position;
+            }
         }
     }
 }

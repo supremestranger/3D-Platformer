@@ -3,27 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInitSystem : IEcsInitSystem
+namespace Platformer
 {
-    private EcsWorld ecsWorld;
-    private GameData gameData;
-
-    public void Init()
+    public class PlayerInitSystem : IEcsInitSystem
     {
-        var playerEntity = ecsWorld.NewEntity();
+        private EcsWorld ecsWorld;
+        private GameData gameData;
 
-        ref var playerComponent = ref playerEntity.Get<PlayerComponent>();
+        public void Init()
+        {
+            var playerEntity = ecsWorld.NewEntity();
 
-        var playerGO = GameObject.FindGameObjectWithTag("Player");
+            ref var playerComponent = ref playerEntity.Get<PlayerComponent>();
 
-        playerGO.GetComponentInChildren<GroundCheck>().playerEntity = playerEntity;
-        playerGO.GetComponentInChildren<CollisionCheckerView>().ecsWorld = ecsWorld;
-        playerComponent.playerSpeed = gameData.configuration.playerSpeed;
-        playerComponent.playerTransform = playerGO.transform;
-        playerComponent.playerJumpForce = gameData.configuration.playerJumpForce;
-        playerComponent.playerCollider = playerGO.GetComponent<CapsuleCollider>();
-        playerComponent.playerRB = playerGO.GetComponent<Rigidbody>();
+            var playerGO = GameObject.FindGameObjectWithTag("Player");
 
-        gameData.playerEntity = playerEntity;
+            playerGO.GetComponentInChildren<GroundCheck>().playerEntity = playerEntity;
+            playerGO.GetComponentInChildren<CollisionCheckerView>().ecsWorld = ecsWorld;
+            playerComponent.playerSpeed = gameData.configuration.playerSpeed;
+            playerComponent.playerTransform = playerGO.transform;
+            playerComponent.playerJumpForce = gameData.configuration.playerJumpForce;
+            playerComponent.playerCollider = playerGO.GetComponent<CapsuleCollider>();
+            playerComponent.playerRB = playerGO.GetComponent<Rigidbody>();
+
+            gameData.playerEntity = playerEntity;
+        }
     }
 }

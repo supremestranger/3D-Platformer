@@ -4,27 +4,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerInputSystem : IEcsRunSystem
+
+namespace Platformer
 {
-    private GameData gameData;
-    public void Run()
+    public class PlayerInputSystem : IEcsRunSystem
     {
-        if (!gameData.playerEntity.IsAlive())
+        private GameData gameData;
+        public void Run()
         {
-            return;
-        }
-        ref var playerInputComponent = ref gameData.playerEntity.Get<PlayerInputComponent>();
-        
-        playerInputComponent.moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
+            if (!gameData.playerEntity.IsAlive())
+            {
+                return;
+            }
+            ref var playerInputComponent = ref gameData.playerEntity.Get<PlayerInputComponent>();
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            playerInputComponent.jumpInput = true;
-        }
+            playerInputComponent.moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                playerInputComponent.jumpInput = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
     }
 }

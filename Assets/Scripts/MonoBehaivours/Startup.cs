@@ -5,81 +5,84 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Startup : MonoBehaviour
+namespace Platformer
 {
-    private EcsWorld ecsWorld;
-    private EcsSystems initSystems;
-    private EcsSystems updateSystems;
-    private EcsSystems fixedUpdateSystems;
-    public GameData gameData;
-    [SerializeField] private ConfigurationSO configuration;
-    [SerializeField] private Text coinCounter;
-    [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private GameObject playerWonPanel;
-    
-    private void Start()
+    public class Startup : MonoBehaviour
     {
-        ecsWorld = new EcsWorld();
-        gameData = new GameData();
+        private EcsWorld ecsWorld;
+        private EcsSystems initSystems;
+        private EcsSystems updateSystems;
+        private EcsSystems fixedUpdateSystems;
+        public GameData gameData;
+        [SerializeField] private ConfigurationSO configuration;
+        [SerializeField] private Text coinCounter;
+        [SerializeField] private GameObject gameOverPanel;
+        [SerializeField] private GameObject playerWonPanel;
 
-        gameData.configuration = configuration;
-        gameData.coinCounter = coinCounter;
-        gameData.gameOverPanel = gameOverPanel;
-        gameData.playerWonPanel = playerWonPanel;
+        private void Start()
+        {
+            ecsWorld = new EcsWorld();
+            gameData = new GameData();
 
-        initSystems = new EcsSystems(ecsWorld)
-            .Add(new PlayerInitSystem())
-            .Add(new CameraInitSystem())
-            .Add(new DangerousInitSystem())
-            .Inject(gameData);
-        updateSystems = new EcsSystems(ecsWorld)
-            .Add(new PlayerInputSystem())
-            .Add(new DangerousRunSystem())
-            .Add(new HitSystem())
-            .Add(new SpeedBuffSystem())
-            .Add(new JumpBuffSystem())
-            .OneFrame<HitComponent>()
-            .Inject(gameData);
-        fixedUpdateSystems = new EcsSystems(ecsWorld)
-            .Add(new PlayerMoveSystem())
-            .Add(new CameraFollowSystem())
-            .Add(new PlayerJumpSystem())
-            .Inject(gameData);
+            gameData.configuration = configuration;
+            gameData.coinCounter = coinCounter;
+            gameData.gameOverPanel = gameOverPanel;
+            gameData.playerWonPanel = playerWonPanel;
+
+            initSystems = new EcsSystems(ecsWorld)
+                .Add(new PlayerInitSystem())
+                .Add(new CameraInitSystem())
+                .Add(new DangerousInitSystem())
+                .Inject(gameData);
+            updateSystems = new EcsSystems(ecsWorld)
+                .Add(new PlayerInputSystem())
+                .Add(new DangerousRunSystem())
+                .Add(new HitSystem())
+                .Add(new SpeedBuffSystem())
+                .Add(new JumpBuffSystem())
+                .OneFrame<HitComponent>()
+                .Inject(gameData);
+            fixedUpdateSystems = new EcsSystems(ecsWorld)
+                .Add(new PlayerMoveSystem())
+                .Add(new CameraFollowSystem())
+                .Add(new PlayerJumpSystem())
+                .Inject(gameData);
 
 #if UNITY_EDITOR
-        Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create(ecsWorld);
-#endif  
-
-        initSystems.ProcessInjects();
-        updateSystems.ProcessInjects();
-        fixedUpdateSystems.ProcessInjects();
-
-        initSystems.Init();
-        updateSystems.Init();
-        fixedUpdateSystems.Init();
-
-#if UNITY_EDITOR
-        Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(initSystems);
-        Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(updateSystems);
-        Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(fixedUpdateSystems);
+            Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create(ecsWorld);
 #endif
-    }
 
-    private void Update()
-    {
-        updateSystems.Run();
-    }
+            initSystems.ProcessInjects();
+            updateSystems.ProcessInjects();
+            fixedUpdateSystems.ProcessInjects();
 
-    private void FixedUpdate()
-    {
-        fixedUpdateSystems.Run();
-    }
+            initSystems.Init();
+            updateSystems.Init();
+            fixedUpdateSystems.Init();
 
-    private void OnDestroy()
-    {
-        initSystems.Destroy();
-        updateSystems.Destroy();
-        fixedUpdateSystems.Destroy();
-        ecsWorld.Destroy();
+#if UNITY_EDITOR
+            Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(initSystems);
+            Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(updateSystems);
+            Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(fixedUpdateSystems);
+#endif
+        }
+
+        private void Update()
+        {
+            updateSystems.Run();
+        }
+
+        private void FixedUpdate()
+        {
+            fixedUpdateSystems.Run();
+        }
+
+        private void OnDestroy()
+        {
+            initSystems.Destroy();
+            updateSystems.Destroy();
+            fixedUpdateSystems.Destroy();
+            ecsWorld.Destroy();
+        }
     }
 }

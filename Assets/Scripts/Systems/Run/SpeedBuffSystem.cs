@@ -3,23 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedBuffSystem : IEcsRunSystem
+
+namespace Platformer
 {
-    private EcsFilter<SpeedBuffComponent, PlayerComponent> speedBuff;
-
-    public void Run()
+    public class SpeedBuffSystem : IEcsRunSystem
     {
-        foreach (var i in speedBuff)
+        private EcsFilter<SpeedBuffComponent, PlayerComponent> speedBuff;
+
+        public void Run()
         {
-            ref var speedBuffComponent = ref speedBuff.Get1(i);
-            ref var playerComponent = ref speedBuff.Get2(i);
-
-            speedBuffComponent.timer -= Time.deltaTime;
-
-            if (speedBuffComponent.timer <= 0)
+            foreach (var i in speedBuff)
             {
-                playerComponent.playerSpeed /= 2f;
-                speedBuff.GetEntity(i).Del<SpeedBuffComponent>();
+                ref var speedBuffComponent = ref speedBuff.Get1(i);
+                ref var playerComponent = ref speedBuff.Get2(i);
+
+                speedBuffComponent.timer -= Time.deltaTime;
+
+                if (speedBuffComponent.timer <= 0)
+                {
+                    playerComponent.playerSpeed /= 2f;
+                    speedBuff.GetEntity(i).Del<SpeedBuffComponent>();
+                }
             }
         }
     }

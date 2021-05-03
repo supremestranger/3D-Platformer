@@ -3,22 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundCheck : MonoBehaviour
+namespace Platformer
 {
-    public EcsEntity playerEntity { get; set; }
-    private void OnTriggerStay(Collider other)
+    public class GroundCheck : MonoBehaviour
     {
-        if (other.gameObject.CompareTag("Ground"))
+        public EcsEntity playerEntity { get; set; }
+        private void OnTriggerStay(Collider other)
         {
-            playerEntity.Get<GroundedComponent>();
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                playerEntity.Get<GroundedComponent>();
+            }
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
+        private void OnTriggerExit(Collider other)
         {
-            playerEntity.Del<GroundedComponent>();
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                playerEntity.Del<GroundedComponent>();
+            }
         }
     }
 }

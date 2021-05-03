@@ -3,24 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpBuffSystem : IEcsRunSystem
+namespace Platformer
 {
-    private EcsFilter<JumpBuffComponent, PlayerComponent> jumpBuff;
-
-    public void Run()
+    public class JumpBuffSystem : IEcsRunSystem
     {
-        foreach (var i in jumpBuff)
+        private EcsFilter<JumpBuffComponent, PlayerComponent> jumpBuff;
+
+        public void Run()
         {
-            ref var jumpBuffComponent = ref jumpBuff.Get1(i);
-            ref var playerComponent = ref jumpBuff.Get2(i);
-
-            jumpBuffComponent.timer -= Time.deltaTime;
-
-            if (jumpBuffComponent.timer <= 0)
+            foreach (var i in jumpBuff)
             {
-                playerComponent.playerJumpForce /= 2f;
-                jumpBuff.GetEntity(i).Del<JumpBuffComponent>();
+                ref var jumpBuffComponent = ref jumpBuff.Get1(i);
+                ref var playerComponent = ref jumpBuff.Get2(i);
+
+                jumpBuffComponent.timer -= Time.deltaTime;
+
+                if (jumpBuffComponent.timer <= 0)
+                {
+                    playerComponent.playerJumpForce /= 2f;
+                    jumpBuff.GetEntity(i).Del<JumpBuffComponent>();
+                }
             }
         }
     }
+
 }

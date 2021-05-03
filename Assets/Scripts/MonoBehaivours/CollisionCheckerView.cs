@@ -3,27 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollisionCheckerView : MonoBehaviour
+namespace Platformer
 {
-    public EcsWorld ecsWorld { get; set; }
-
-    private void OnCollisionEnter(Collision collision)
+    public class CollisionCheckerView : MonoBehaviour
     {
-        var hit = ecsWorld.NewEntity();
+        public EcsWorld ecsWorld { get; set; }
 
-        ref var hitComponent = ref hit.Get<HitComponent>();
+        private void OnCollisionEnter(Collision collision)
+        {
+            var hit = ecsWorld.NewEntity();
 
-        hitComponent.first = transform.root.gameObject;
-        hitComponent.other = collision.gameObject;
-    }
+            ref var hitComponent = ref hit.Get<HitComponent>();
 
-    private void OnTriggerEnter(Collider other)
-    {
-        var hit = ecsWorld.NewEntity();
+            hitComponent.first = transform.root.gameObject;
+            hitComponent.other = collision.gameObject;
+        }
 
-        ref var hitComponent = ref hit.Get<HitComponent>();
+        private void OnTriggerEnter(Collider other)
+        {
+            var hit = ecsWorld.NewEntity();
 
-        hitComponent.first = transform.root.gameObject;
-        hitComponent.other = other.gameObject;
+            ref var hitComponent = ref hit.Get<HitComponent>();
+
+            hitComponent.first = transform.root.gameObject;
+            hitComponent.other = other.gameObject;
+        }
     }
 }

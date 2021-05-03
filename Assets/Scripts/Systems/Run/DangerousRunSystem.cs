@@ -3,19 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DangerousRunSystem : IEcsRunSystem
+namespace Platformer
 {
-    private EcsFilter<DangerousComponent> dangerousObstacles;
-
-    public void Run()
+    public class DangerousRunSystem : IEcsRunSystem
     {
-        foreach (var i in dangerousObstacles)
-        {
-            ref var dangerousComponent = ref dangerousObstacles.Get1(i);
-            Vector3 pos1 = dangerousComponent.pointA;
-            Vector3 pos2 = dangerousComponent.pointB;
+        private EcsFilter<DangerousComponent> dangerousObstacles;
 
-            dangerousComponent.obstacleTransform.localPosition = Vector3.Lerp(pos1, pos2, Mathf.PingPong(Time.time, 1.0f));
+        public void Run()
+        {
+            foreach (var i in dangerousObstacles)
+            {
+                ref var dangerousComponent = ref dangerousObstacles.Get1(i);
+                Vector3 pos1 = dangerousComponent.pointA;
+                Vector3 pos2 = dangerousComponent.pointB;
+
+                dangerousComponent.obstacleTransform.localPosition = Vector3.Lerp(pos1, pos2, Mathf.PingPong(Time.time, 1.0f));
+            }
         }
     }
 }

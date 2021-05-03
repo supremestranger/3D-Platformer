@@ -3,22 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraInitSystem : IEcsInitSystem
+namespace Platformer
 {
-    private EcsWorld ecsWorld;
-    private GameData gameData;
-
-    public void Init()
+    public class CameraInitSystem : IEcsInitSystem
     {
-        var cameraEntity = ecsWorld.NewEntity();
+        private EcsWorld ecsWorld;
+        private GameData gameData;
 
-        ref var cameraComponent = ref cameraEntity.Get<CameraComponent>();
+        public void Init()
+        {
+            var cameraEntity = ecsWorld.NewEntity();
 
-        cameraComponent.cameraTransform = Camera.main.transform;
-        cameraComponent.cameraSmoothness = gameData.configuration.cameraFollowSmoothness;
-        cameraComponent.curVelocity = Vector3.zero;
-        cameraComponent.offset = new Vector3(0f, 1f, -9f);
+            ref var cameraComponent = ref cameraEntity.Get<CameraComponent>();
 
-        gameData.cameraEntity = cameraEntity;
+            cameraComponent.cameraTransform = Camera.main.transform;
+            cameraComponent.cameraSmoothness = gameData.configuration.cameraFollowSmoothness;
+            cameraComponent.curVelocity = Vector3.zero;
+            cameraComponent.offset = new Vector3(0f, 1f, -9f);
+
+            gameData.cameraEntity = cameraEntity;
+        }
     }
 }
