@@ -7,6 +7,7 @@ namespace Platformer
 {
     public class CollisionCheckerView : MonoBehaviour
     {
+        // auto-injected fields.
         public EcsWorld ecsWorld { get; set; }
 
         private void OnCollisionEnter(Collision collision)

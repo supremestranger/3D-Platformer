@@ -7,6 +7,7 @@ namespace Platformer
 {
     public class GroundCheckerView : MonoBehaviour
     {
+        // auto-injected fields.
         public EcsEntity playerEntity { get; set; }
         private void OnTriggerStay(Collider other)
         {
