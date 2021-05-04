@@ -19,7 +19,7 @@ namespace Platformer
 
             var playerGO = GameObject.FindGameObjectWithTag("Player");
 
-            playerGO.GetComponentInChildren<GroundCheck>().playerEntity = playerEntity;
+            playerGO.GetComponentInChildren<GroundCheckerView>().playerEntity = playerEntity;
             playerGO.GetComponentInChildren<CollisionCheckerView>().ecsWorld = ecsWorld;
             playerComponent.playerSpeed = gameData.configuration.playerSpeed;
             playerComponent.playerTransform = playerGO.transform;

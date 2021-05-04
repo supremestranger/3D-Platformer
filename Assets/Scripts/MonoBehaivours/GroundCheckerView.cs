@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Platformer
 {
-    public class GroundCheck : MonoBehaviour
+    public class GroundCheckerView : MonoBehaviour
     {
         public EcsEntity playerEntity { get; set; }
         private void OnTriggerStay(Collider other)
