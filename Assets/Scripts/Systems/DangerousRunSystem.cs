@@ -7,6 +7,7 @@ namespace Platformer
 {
     public class DangerousRunSystem : IEcsRunSystem
     {
+        // auto-injected fields
         private EcsFilter<DangerousComponent> dangerousObstacles;
 
         public void Run()

@@ -7,6 +7,7 @@ namespace Platformer
 {
     public class JumpBuffSystem : IEcsRunSystem
     {
+        // auto-injected fields
         private EcsFilter<JumpBuffComponent, PlayerComponent> jumpBuff;
 
         public void Run()

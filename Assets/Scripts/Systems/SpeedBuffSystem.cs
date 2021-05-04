@@ -8,6 +8,7 @@ namespace Platformer
 {
     public class SpeedBuffSystem : IEcsRunSystem
     {
+        // auto-injected fields
         private EcsFilter<SpeedBuffComponent, PlayerComponent> speedBuff;
 
         public void Run()
