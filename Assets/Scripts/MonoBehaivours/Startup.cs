@@ -1,5 +1,4 @@
 ﻿using Leopotam.Ecs;
-using Leopotam.Ecs.UnityIntegration;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +12,6 @@ namespace Platformer
         private EcsSystems initSystems;
         private EcsSystems updateSystems;
         private EcsSystems fixedUpdateSystems;
-        public GameData gameData;
         [SerializeField] private ConfigurationSO configuration;
         [SerializeField] private Text coinCounter;
         [SerializeField] private GameObject gameOverPanel;
@@ -22,7 +20,7 @@ namespace Platformer
         private void Start()
         {
             ecsWorld = new EcsWorld();
-            gameData = new GameData();
+            var gameData = new GameData();
 
             gameData.configuration = configuration;
             gameData.coinCounter = coinCounter;
@@ -47,10 +45,6 @@ namespace Platformer
                 .Add(new PlayerJumpSystem())
                 .Inject(gameData);
 
-#if UNITY_EDITOR
-            Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create(ecsWorld);
-#endif
-
             initSystems.ProcessInjects();
             updateSystems.ProcessInjects();
             fixedUpdateSystems.ProcessInjects();
@@ -58,12 +52,6 @@ namespace Platformer
             initSystems.Init();
             updateSystems.Init();
             fixedUpdateSystems.Init();
-
-#if UNITY_EDITOR
-            Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(initSystems);
-            Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(updateSystems);
-            Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(fixedUpdateSystems);
-#endif
         }
 
         private void Update()
