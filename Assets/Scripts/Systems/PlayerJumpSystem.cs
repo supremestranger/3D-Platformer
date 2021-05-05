@@ -9,7 +9,6 @@ namespace Platformer
     public class PlayerJumpSystem : IEcsRunSystem
     {
         // auto-injected fields.
-        private GameData gameData;
         private EcsFilter<PlayerComponent, PlayerInputComponent, GroundedComponent> playerFilter;
 
         public void Run()
