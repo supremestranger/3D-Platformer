@@ -8,18 +8,18 @@ namespace Platformer
     public class PlayerMoveSystem : IEcsRunSystem
     {
         // auto-injected fields.
-        private GameData gameData;
+        private EcsFilter<PlayerComponent, PlayerInputComponent> playerFilter;
 
         public void Run()
         {
-            if (!gameData.playerEntity.IsAlive())
+            foreach (var i in playerFilter)
             {
-                return;
-            }
-            ref var playerComponent = ref gameData.playerEntity.Get<PlayerComponent>();
-            ref var playerInputComponent = ref gameData.playerEntity.Get<PlayerInputComponent>();
+                ref var playerComponent = ref playerFilter.Get1(i);
+                ref var playerInputComponent = ref playerFilter.Get2(i);
 
-            playerComponent.playerRB.AddForce(playerInputComponent.moveInput * playerComponent.playerSpeed, ForceMode.Acceleration);
+                playerComponent.playerRB.AddForce(playerInputComponent.moveInput * playerComponent.playerSpeed, ForceMode.Acceleration);
+            }
+            
         }
     }
 }

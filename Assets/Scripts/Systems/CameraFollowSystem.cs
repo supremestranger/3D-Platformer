@@ -11,6 +11,7 @@ namespace Platformer
         private EcsWorld ecsWorld;
         private GameData gameData;
         private EcsEntity cameraEntity;
+        private EcsFilter<PlayerComponent> playerFilter;
 
         public void Init()
         {
@@ -28,17 +29,17 @@ namespace Platformer
 
         public void Run()
         {
-            if (!gameData.playerEntity.IsAlive() || !cameraEntity.IsAlive())
-            {
-                return;
-            }
             ref var cameraComponent = ref cameraEntity.Get<CameraComponent>();
-            ref var playerComponent = ref gameData.playerEntity.Get<PlayerComponent>();
 
-            Vector3 currentPosition = cameraComponent.cameraTransform.position;
-            Vector3 targetPoint = playerComponent.playerTransform.position + cameraComponent.offset;
+            foreach(var i in playerFilter)
+            {
+                ref var playerComponent = ref playerFilter.Get1(i);
 
-            cameraComponent.cameraTransform.position = Vector3.SmoothDamp(currentPosition, targetPoint, ref cameraComponent.curVelocity, cameraComponent.cameraSmoothness);
+                Vector3 currentPosition = cameraComponent.cameraTransform.position;
+                Vector3 targetPoint = playerComponent.playerTransform.position + cameraComponent.offset;
+
+                cameraComponent.cameraTransform.position = Vector3.SmoothDamp(currentPosition, targetPoint, ref cameraComponent.curVelocity, cameraComponent.cameraSmoothness);
+            }    
         }
     }
 }

@@ -10,21 +10,18 @@ namespace Platformer
     {
         // auto-injected fields.
         private GameData gameData;
+        private EcsFilter<PlayerComponent, PlayerInputComponent, GroundedComponent> playerFilter;
 
         public void Run()
         {
-            if (!gameData.playerEntity.IsAlive())
+            foreach (var i in playerFilter)
             {
-                return;
-            }
-            ref var playerComponent = ref gameData.playerEntity.Get<PlayerComponent>();
-            ref var playerInputComponent = ref gameData.playerEntity.Get<PlayerInputComponent>();
+                ref var playerComponent = ref playerFilter.Get1(i);
+                ref var playerInputComponent = ref playerFilter.Get2(i);
 
-            if (playerInputComponent.jumpInput)
-            {
-                playerInputComponent.jumpInput = false;
-                if (gameData.playerEntity.Has<GroundedComponent>())
+                if (playerInputComponent.jumpInput)
                 {
+                    playerInputComponent.jumpInput = false;
                     playerComponent.playerRB.AddForce(Vector3.up * playerComponent.playerJumpForce, ForceMode.VelocityChange);
                 }
             }

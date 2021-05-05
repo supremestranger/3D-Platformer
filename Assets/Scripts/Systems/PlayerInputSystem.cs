@@ -10,26 +10,25 @@ namespace Platformer
     public class PlayerInputSystem : IEcsRunSystem
     {
         // auto-injected fields.
-        private GameData gameData;
+        private EcsFilter<PlayerInputComponent> playerFilter;
 
         public void Run()
         {
-            if (!gameData.playerEntity.IsAlive())
+            foreach (var i in playerFilter)
             {
-                return;
-            }
-            ref var playerInputComponent = ref gameData.playerEntity.Get<PlayerInputComponent>();
+                ref var playerInputComponent = ref playerFilter.Get1(i);
 
-            playerInputComponent.moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
+                playerInputComponent.moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                playerInputComponent.jumpInput = true;
-            }
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    playerInputComponent.jumpInput = true;
+                }
 
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                }
             }
         }
     }

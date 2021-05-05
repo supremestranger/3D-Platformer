@@ -16,6 +16,7 @@ namespace Platformer
             var playerEntity = ecsWorld.NewEntity();
 
             ref var playerComponent = ref playerEntity.Get<PlayerComponent>();
+            ref var playerInputComponent = ref playerEntity.Get<PlayerInputComponent>();
 
             var playerGO = GameObject.FindGameObjectWithTag("Player");
 
@@ -26,8 +27,6 @@ namespace Platformer
             playerComponent.playerJumpForce = gameData.configuration.playerJumpForce;
             playerComponent.playerCollider = playerGO.GetComponent<CapsuleCollider>();
             playerComponent.playerRB = playerGO.GetComponent<Rigidbody>();
-
-            gameData.playerEntity = playerEntity;
         }
     }
 }
