@@ -10,6 +10,7 @@ namespace Platformer
     public class PlayerInputSystem : IEcsRunSystem
     {
         // auto-injected fields.
+        private EcsWorld ecsWorld;
         private EcsFilter<PlayerInputComponent> playerFilter;
 
         public void Run()
@@ -22,7 +23,8 @@ namespace Platformer
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    playerInputComponent.jumpInput = true;
+                    var tryJump = ecsWorld.NewEntity();
+                    tryJump.Get<TryJump>();
                 }
 
                 if (Input.GetKeyDown(KeyCode.R))

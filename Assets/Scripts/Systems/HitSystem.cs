@@ -25,14 +25,12 @@ namespace Platformer
 
                     if (hitComponent.other.CompareTag("Coin"))
                     {
-                        hitComponent.other.gameObject.SetActive(false);
                         playerComponent.coins += 1;
                         gameData.coinCounter.text = playerComponent.coins.ToString();
                     }
 
                     if (hitComponent.other.CompareTag("BadCoin"))
                     {
-                        hitComponent.other.gameObject.SetActive(false);
                         playerComponent.coins -= 1;
                         gameData.coinCounter.text = playerComponent.coins.ToString();
                     }
