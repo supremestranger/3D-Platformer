@@ -29,6 +29,7 @@ namespace Platformer
 
         public void Run()
         {
+            if (!cameraEntity.IsAlive()) return;
             ref var cameraComponent = ref cameraEntity.Get<CameraComponent>();
 
             foreach(var i in playerFilter)
